@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demande de Projet</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#0d0d0d;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    color:white;
+}
+
+.container{
+    width:100%;
+    max-width:700px;
+    background:#151515;
+    border:2px solid #00ffff;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 0 30px rgba(0,255,255,.3);
+}
+
+h1{
+    text-align:center;
+    color:#00ffff;
+    margin-bottom:15px;
+    text-shadow:0 0 15px #00ffff;
+}
+
+.info{
+    background:#1e1e1e;
+    border-left:4px solid #00ffff;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:25px;
+    line-height:1.6;
+}
+
+.info strong{
+    color:#00ffff;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    margin-top:15px;
+    font-weight:bold;
+}
+
+input,
+textarea{
+    width:100%;
+    padding:14px;
+    background:#0f0f0f;
+    border:1px solid #333;
+    border-radius:10px;
+    color:white;
+    outline:none;
+}
+
+input:focus,
+textarea:focus{
+    border-color:#00ffff;
+    box-shadow:0 0 10px rgba(0,255,255,.4);
+}
+
+textarea{
+    min-height:180px;
+    resize:vertical;
+}
+
+button{
+    width:100%;
+    margin-top:20px;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#00ffff;
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:16px;
+    transition:.3s;
+}
+
+button:hover{
+    transform:scale(1.03);
+    box-shadow:0 0 20px #00ffff;
+}
+
+.status{
+    margin-top:15px;
+    text-align:center;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🎮 Demande de Projet</h1>
+
+    <div class="info">
+        ⚠️ <strong>Information importante :</strong><br><br>
+        Tous les projets sont <strong>payants</strong>.<br>
+        Cependant, votre <strong>premier projet est offert</strong> afin de découvrir nos services.
+        <br><br>
+        Merci de remplir le formulaire avec le plus de détails possible.
+    </div>
+
+    <form id="projectForm">
+
+        <label>Prénom</label>
+        <input type="text" id="prenom" required>
+
+        <label>Discord</label>
+        <input type="text" id="discord" placeholder="Pseudo#0000" required>
+
+        <label>Description du projet</label>
+        <textarea id="projet" required></textarea>
+
+        <button type="submit">Envoyer la demande</button>
+
+        <div class="status" id="status"></div>
+
+    </form>
+
+</div>
+
+<script>
+document.getElementById("projectForm").addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const prenom = document.getElementById("prenom").value;
+    const discord = document.getElementById("discord").value;
+    const projet = document.getElementById("projet").value;
+
+    const webhookURL = "https://discord.com/api/webhooks/1516978175941541920/bj17sGsd3rptfLCZ53FitIu339aid2tYpPqH29KXh0UHOWIG45PIKkLVfPRzvdxlPMoF";
+
+    const data = {
+        content:
+`📩 Nouvelle demande de projet
+
+👤 Prénom : ${prenom}
+
+🎮 Discord : ${discord}
+
+🚀 Projet :
+${projet}`
+    };
+
+    try{
+        await fetch(webhookURL,{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(data)
+        });
+
+        document.getElementById("status").innerHTML =
+        "✅ Demande envoyée avec succès !";
+
+        document.getElementById("projectForm").reset();
+
+    }catch(err){
+
+        document.getElementById("status").innerHTML =
+        "❌ Erreur lors de l'envoi.";
+
+    }
+
+});
+</script>
+
+</body>
+</html>
